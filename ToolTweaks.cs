@@ -12,6 +12,7 @@ using System;
 using Jotunn.Managers;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using Jotunn;
 
 namespace ToolTweaks
 {
@@ -128,6 +129,8 @@ namespace ToolTweaks
     [HarmonyPatch(typeof(Player))]
     internal class PlayerPatch
     {
+        private static bool UsingBuildTool = false;
+
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.Awake))]
         private static void AwakePostfix(Player __instance)
@@ -138,123 +141,60 @@ namespace ToolTweaks
             __instance.m_removeDelay = ToolTweaks.UseageDelay;
         }
 
-        /// <summary>
-        ///     Transpiler to patch in a delegate that modifies tool stamina usage
-        /// </summary>
-        /// <param name="instructions"></param>
-        /// <returns></returns>
-        [HarmonyTranspiler]
+
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.Last)]
         [HarmonyPatch(nameof(Player.UpdatePlacement))]
-        private static IEnumerable<CodeInstruction> PlacementUseStaminaTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static void UpdatePlacementPrefix(Player __instance, out float __state)
         {
-            // Targeting code
-            // UseStamina(rightItem.m_shared.m_attack.m_attackStamina, isBaseUsage: true);
-            // IL_01e7: ldarg.0
-            // IL_01e8: ldloc.0
-            // IL_01e9: ldfld class ItemDrop/ItemData/SharedData ItemDrop/ItemData::m_shared
-            // IL_01ee: ldfld class Attack ItemDrop/ItemData/SharedData::m_attack
-            // IL_01f3: ldfld float32 Attack::m_attackStamina
-            // IL_01f8: ldc.i4.1
-            // IL_01f9: callvirt instance void Character::UseStamina(float32, bool)
-
-            FieldInfo sharedField = typeof(ItemDrop.ItemData).GetField(nameof(ItemDrop.ItemData.m_shared));
-            FieldInfo attackField = typeof(ItemDrop.ItemData.SharedData).GetField(nameof(ItemDrop.ItemData.SharedData.m_attack));
-            FieldInfo attackStaminaField = typeof(Attack).GetField(nameof(Attack.m_attackStamina));
-            MethodInfo useStaminaMethod = typeof(Character).GetMethod(nameof(Character.UseStamina));
-
-            var codeMatches = new CodeMatch[]
+            if (__instance && __instance.InPlaceMode() && !__instance.IsDead())
             {
-                new CodeMatch(OpCodes.Ldloc_0),
-                new CodeMatch(OpCodes.Ldfld, sharedField),
-                new CodeMatch(OpCodes.Ldfld, attackField),
-                new CodeMatch(OpCodes.Ldfld, attackStaminaField),
-                new CodeMatch(OpCodes.Ldc_I4_1),
-                new CodeMatch(OpCodes.Callvirt, useStaminaMethod)
-            };
-
-
-            var codeMatcher = new CodeMatcher(instructions);
-            codeMatcher.MatchForward(useEnd: false, codeMatches);
-
-            while (codeMatcher.IsValid)
-            {
-                // Replace first line of matched code with delegate and remove the rest
-                codeMatcher.SetInstructionAndAdvance(Transpilers.EmitDelegate(UseStaminaDelegate));
-                codeMatcher.RemoveInstructions(codeMatches.Length - 1);
-                codeMatcher.MatchForward(useEnd: false, codeMatches);
+                var rightItem = __instance.GetRightItem();
+                if (rightItem != null)
+                {
+                    UsingBuildTool = true;
+                    __state = rightItem.m_shared.m_useDurabilityDrain;
+                    rightItem.m_shared.m_useDurabilityDrain *= ToolTweaks.DurabilityMultiplier;
+                    return;
+                }
             }
-            return codeMatcher.InstructionEnumeration();
+            __state = -1;
         }
 
 
-        private static void UseStaminaDelegate(Player player)
-        {
-            Log.LogInfo("UseStamina delegate");
-            var stamCost = player.m_rightItem.m_shared.m_attack.m_attackStamina * ToolTweaks.StaminaMultiplier;
-            player.UseStamina(stamCost, isBaseUsage: true);
-        }
-
-
-        /// <summary>
-        ///     Transpiler to patch in a delegate that modifies tool durability drain
-        /// </summary>
-        /// <param name="instructions"></param>
-        /// <returns></returns>
-        [HarmonyTranspiler]
+        [HarmonyPostfix]
+        [HarmonyPriority(Priority.First)]
         [HarmonyPatch(nameof(Player.UpdatePlacement))]
-        private static IEnumerable<CodeInstruction> PlacementUseDurabilityTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static void UpdatePlacementPostfix(Player __instance, float __state)
         {
-            // Targeting code
-            // if (rightItem.m_shared.m_useDurability)
-            // IL_01fe: ldloc.0
-            // IL_01ff: ldfld class ItemDrop/ItemData/SharedData ItemDrop/ItemData::m_shared
-            // IL_0204: ldfld bool ItemDrop/ItemData/SharedData::m_useDurability
-            // IL_0209: brfalse.s IL_022f
-
-            // rightItem.m_durability -= rightItem.m_shared.m_useDurabilityDrain;
-            // IL_020b: ldloc.0
-            // IL_020c: dup
-            // IL_020d: ldfld float32 ItemDrop/ItemData::m_durability
-            // IL_0212: ldloc.0
-            // IL_0213: ldfld class ItemDrop/ItemData/SharedData ItemDrop/ItemData::m_shared
-            // IL_0218: ldfld float32 ItemDrop/ItemData/SharedData::m_useDurabilityDrain
-            // IL_021d: sub
-            // IL_021e: stfld float32 ItemDrop/ItemData::m_durability
-
-            FieldInfo durabilityField = typeof(ItemDrop.ItemData).GetField(nameof(ItemDrop.ItemData.m_durability));
-            FieldInfo sharedField = typeof(ItemDrop.ItemData).GetField(nameof(ItemDrop.ItemData.m_shared));
-            FieldInfo durabilityDrainField = typeof(ItemDrop.ItemData.SharedData)
-                .GetField(nameof(ItemDrop.ItemData.SharedData.m_useDurabilityDrain));
-
-            var codeMatches = new CodeMatch[]
+            if (UsingBuildTool)
             {
-                new CodeMatch(OpCodes.Dup),
-                new CodeMatch(OpCodes.Ldfld, durabilityField),
-                new CodeMatch(OpCodes.Ldloc_0),
-                new CodeMatch(OpCodes.Ldfld, sharedField),
-                new CodeMatch(OpCodes.Ldfld, durabilityDrainField),
-                new CodeMatch(OpCodes.Sub),
-                new CodeMatch(OpCodes.Stfld, durabilityField)
-            };
-
-            var codeMatcher = new CodeMatcher(instructions);
-            codeMatcher.MatchForward(useEnd: false, codeMatches);
-            while (codeMatcher.IsValid)
-            {
-                // Replace first line of matched code with delegate and remove the rest
-                codeMatcher.SetInstructionAndAdvance(Transpilers.EmitDelegate(UseDurabilityDelegate));
-                codeMatcher.RemoveInstructions(codeMatches.Length - 1);
-                codeMatcher.MatchForward(useEnd: false, codeMatches);
+                if (__instance && __state != -1)
+                {
+                    __instance.GetRightItem().m_shared.m_useDurabilityDrain = __state;
+                }
+                UsingBuildTool = false;
             }
-            return codeMatcher.InstructionEnumeration();
         }
 
 
-        private static void UseDurabilityDelegate(ItemDrop.ItemData rightItem)
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(Player.UseStamina))]
+        private static void UseStaminaPrefix(Player __instance, ref float v)
         {
-            rightItem.m_durability -= rightItem.m_shared.m_useDurabilityDrain * ToolTweaks.DurabilityMultiplier;
+            if (!UsingBuildTool || !__instance || !IsWieldingTool(__instance)) { return; }
+            v *= ToolTweaks.StaminaMultiplier;
         }
 
+
+        private static bool IsWieldingTool(Player player)
+        {
+            if (player)
+            {
+                return player.GetRightItem().m_shared.m_itemType == ItemDrop.ItemData.ItemType.Tool;
+            }
+            return false;
+        }
     }
 
     /// <summary>
