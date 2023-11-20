@@ -237,17 +237,6 @@ namespace ToolTweaks
                 new CodeMatch(OpCodes.Stfld, durabilityField)
             };
 
-            foreach (var match in codeMatches)
-            {
-                Log.LogInfo(match.ToString());
-            }
-
-            Log.LogInfo("\n\nOriginal Instructions");
-            foreach (var intstruct in instructions)
-            {
-                Log.LogInfo(intstruct.ToString());
-            }
-
             var codeMatcher = new CodeMatcher(instructions);
             codeMatcher.MatchForward(useEnd: false, codeMatches);
             while (codeMatcher.IsValid)
