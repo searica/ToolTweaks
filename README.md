@@ -1,5 +1,5 @@
 # ToolTweaks
-Desc:
+Desc: 
 
 **Server-Side Info**: This mod does work as a client-side only mod and only needs to be installed on the server if you wish to enforce configuration settings.
 
@@ -41,7 +41,7 @@ My mods will always be free to use but if you feel like saying thanks you can ti
 ## Source Code
 Source code is available on Github.
 
-| Github Repository: | <button style="font-size:20px"><img height="18" src="https://github.githubassets.com/favicons/favicon-dark.svg"></img><a href=""> ModName</button> |
+| Github Repository: | <button style="font-size:20px"><img height="18" src="https://github.githubassets.com/favicons/favicon-dark.svg"></img><a href="https://github.com/searica/ToolTweaks"> ToolTweaks</button> |
 |-----------|---------------|
 
 ### Contributions
@@ -50,14 +50,7 @@ If you would like to provide suggestions, make feature requests, or reports bugs
 I'm a grad student and have a lot of personal responsibilities on top of that so I can't promise I will respond quickly, but I do intend to maintain and improve the mod in my free time.
 
 ### Credits
-This mod
-
-#### Development Credits
-- Huge shoutout and thanks to the developers of Jotunn for all their work making the library and to Margmas specifically for all their help and advice.
-- Thanks
-
-#### Community Credits
-- Thanks to
+This mod was inspired by FastTools by CrystalFerrai.
 
 ## Shameless Self Plug (Other Mods By Me)
 If you like this mod you might like some of my other ones.
@@ -65,6 +58,7 @@ If you like this mod you might like some of my other ones.
 #### Building Mods
 - [More Vanilla Build Prefabs](https://valheim.thunderstore.io/package/Searica/More_Vanilla_Build_Prefabs/)
 - [Extra Snap Points Made Easy](https://valheim.thunderstore.io/package/Searica/Extra_Snap_Points_Made_Easy/)
+- [AdvancedTerrainModifiders](https://valheim.thunderstore.io/package/Searica/AdvancedTerrainModifiders/)
 - [BuildRestrictionTweaksSync](https://valheim.thunderstore.io/package/Searica/BuildRestrictionTweaksSync/)
 
 #### Gameplay Mods
@@ -73,4 +67,4 @@ If you like this mod you might like some of my other ones.
 - [FortifySkillsRedux](https://valheim.thunderstore.io/package/Searica/FortifySkillsRedux/)
 - [ProjectileTweaks](https://github.com/searica/ProjectileTweaks/)
 - [SkilledCarryWeight](https://github.com/searica/SkilledCarryWeight/)
-- [SafetyStatus](https://valheim.thunderstore.io/package/Searica/SafetyStatus/)tps://github.com/searica/SkilledCarryWeight/)
+- [SafetyStatus](https://valheim.thunderstore.io/package/Searica/SafetyStatus/)
