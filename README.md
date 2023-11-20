@@ -1,5 +1,5 @@
 # ToolTweaks
-Desc: 
+Simple mod that lets you customize stamina cost, durability drain, and usage delay for tools. This mod is very similar to existing mods like FastTools but instead of using Transpiler patches it relies on Prefix/Postfix patches to avoid causing visual bugs when using tools like the Hoe.
 
 **Server-Side Info**: This mod does work as a client-side only mod and only needs to be installed on the server if you wish to enforce configuration settings.
 
