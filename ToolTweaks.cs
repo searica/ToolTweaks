@@ -10,9 +10,6 @@ using System.Reflection;
 using UnityEngine;
 using System;
 using Jotunn.Managers;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using Jotunn;
 
 namespace ToolTweaks
 {
@@ -23,7 +20,7 @@ namespace ToolTweaks
         internal const string Author = "Searica";
         public const string PluginName = "ToolTweaks";
         public const string PluginGUID = $"{Author}.Valheim.{PluginName}";
-        public const string PluginVersion = "0.0.1";
+        public const string PluginVersion = "1.0.0";
 
         // Use this class to add your own localization to the game
         // https://valheim-modding.github.io/Jotunn/tutorials/localization.html
@@ -46,13 +43,11 @@ namespace ToolTweaks
 
             ConfigManager.Init(PluginGUID, Config, false);
             SetUpConfigEntries();
-            ConfigManager.SaveOnConfigSet(false);
 
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), harmonyInstanceId: PluginGUID);
             Game.isModded = true;
 
             ConfigManager.SetupWatcher();
-            //ConfigManager.CheckForConfigManager();
 
             ConfigManager.OnConfigFileReloaded += UpdatePlugin;
             SynchronizationManager.OnConfigurationWindowClosed += UpdatePlugin;
@@ -78,7 +73,7 @@ namespace ToolTweaks
 
             useDelay = ConfigManager.BindConfig(
                 MainSection,
-                "UsageDelayMultiplier",
+                "Usage Delay",
                 0.25f,
                 "Set the time delay between tool uses for both placement and removal. Vanilla default is 0.4s for placement and 0.25s for removal.",
                 new AcceptableValueRange<float>(0.05f, 2f)
@@ -86,17 +81,17 @@ namespace ToolTweaks
 
             staminaMult = ConfigManager.BindConfig(
                 MainSection,
-                "StaminaCostMultiplier",
+                "Stamina Cost Multiplier",
                 0.5f,
-                "Change the stamina cost for using tools.",
+                "Change the stamina cost for using tools. Setting to 0.5 means stamina costs are reduced to 50%. Setting to 2 means stamina costs are increased to 200%.",
                 new AcceptableValueRange<float>(0.0f, 2f)
             );
 
             durabiltyMult = ConfigManager.BindConfig(
                 MainSection,
-                "DurabilityMultiplier",
+                "Durability Drain Multiplier",
                 0.5f,
-                "Change the amount of durability used up each time a tool is used.",
+                "Change the amount of durability drained each time a tool is used. Setting to 0.5 means durability is drained 50% as much. Setting to 2 means durability drain is increased to 200%.",
                 new AcceptableValueRange<float>(0.0f, 2f)
             );
 
@@ -121,7 +116,9 @@ namespace ToolTweaks
                     player.m_placeDelay = UseageDelay;
                     player.m_removeDelay = UseageDelay;
                 }
+
                 ShouldUpdatePlugin = false;
+                ConfigManager.Save();
             }
         }
     }
