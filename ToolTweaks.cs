@@ -10,11 +10,13 @@ using System.Reflection;
 using UnityEngine;
 using System;
 using Jotunn.Managers;
+using Jotunn.Utils;
 
 namespace ToolTweaks
 {
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [BepInDependency(Jotunn.Main.ModGuid, Jotunn.Main.Version)]
+    [NetworkCompatibility(CompatibilityLevel.VersionCheckOnly, VersionStrictness.Patch)]
     internal class ToolTweaks : BaseUnityPlugin
     {
         internal const string Author = "Searica";

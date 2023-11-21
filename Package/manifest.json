@@ -1,6 +1,6 @@
 ﻿{
   "name": "ToolTweaks",
-  "description": "Simple mod that lets you customize stamina cost, durability drain, and usage delay for tools.",
+  "description": "Simple mod that lets you customize stamina cost, durability drain, and usage delay for tools. Can sync configuration settings to client if installed on server.",
   "version_number": "1.0.0",
   "website_url": "https://discord.gg/sFmGTBYN6n",
   "dependencies": [
