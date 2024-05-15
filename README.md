@@ -100,15 +100,15 @@ This mod was inspired by FastTools by CrystalFerrai.
 If you like this mod you might like some of my other ones.
 
 #### Building Mods
-- [More Vanilla Build Prefabs](https://valheim.thunderstore.io/package/Searica/More_Vanilla_Build_Prefabs/)
-- [Extra Snap Points Made Easy](https://valheim.thunderstore.io/package/Searica/Extra_Snap_Points_Made_Easy/)
-- [AdvancedTerrainModifiders](https://valheim.thunderstore.io/package/Searica/AdvancedTerrainModifiders/)
-- [BuildRestrictionTweaksSync](https://valheim.thunderstore.io/package/Searica/BuildRestrictionTweaksSync/)
+- [More Vanilla Build Prefabs](https://thunderstore.io/c/valheim/p/Searica/More_Vanilla_Build_Prefabs/)
+- [Extra Snap Points Made Easy](https://thunderstore.io/c/valheim/p/Searica/Extra_Snap_Points_Made_Easy/)
+- [AdvancedTerrainModifiers](https://thunderstore.io/c/valheim/p/Searica/AdvancedTerrainModifiers/)
+- [BuildRestrictionTweaksSync](https://thunderstore.io/c/valheim/p/Searica/BuildRestrictionTweaksSync/)
 
 #### Gameplay Mods
-- [CameraTweaks](https://valheim.thunderstore.io/package/Searica/CameraTweaks/)
-- [DodgeShortcut](https://valheim.thunderstore.io/package/Searica/DodgeShortcut/)
-- [FortifySkillsRedux](https://valheim.thunderstore.io/package/Searica/FortifySkillsRedux/)
-- [ProjectileTweaks](https://github.com/searica/ProjectileTweaks/)
-- [SkilledCarryWeight](https://github.com/searica/SkilledCarryWeight/)
-- [SafetyStatus](https://valheim.thunderstore.io/package/Searica/SafetyStatus/)
+- [CameraTweaks](https://thunderstore.io/c/valheim/p/Searica/CameraTweaks/)
+- [DodgeShortcut](https://thunderstore.io/c/valheim/p/Searica/DodgeShortcut/)
+- [FortifySkillsRedux](https://thunderstore.io/c/valheim/p/Searica/FortifySkillsRedux/)
+- [ProjectileTweaks](https://thunderstore.io/c/valheim/p/Searica/ProjectileTweaks/)
+- [SkilledCarryWeight](https://thunderstore.io/c/valheim/p/Searica/SkilledCarryWeight/)
+- [SafetyStatus](https://thunderstore.io/c/valheim/p/Searica/SafetyStatus/)
