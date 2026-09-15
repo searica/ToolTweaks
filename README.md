@@ -104,6 +104,7 @@ If you like this mod you might like some of my other ones.
 - [Extra Snap Points Made Easy](https://thunderstore.io/c/valheim/p/Searica/Extra_Snap_Points_Made_Easy/)
 - [AdvancedTerrainModifiers](https://thunderstore.io/c/valheim/p/Searica/AdvancedTerrainModifiers/)
 - [BuildRestrictionTweaksSync](https://thunderstore.io/c/valheim/p/Searica/BuildRestrictionTweaksSync/)
+- [MeasureTwice](https://thunderstore.io/c/valheim/p/Searica/MeasureTwice/)
 
 #### Gameplay Mods
 - [CameraTweaks](https://thunderstore.io/c/valheim/p/Searica/CameraTweaks/)
